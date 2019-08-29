@@ -1,0 +1,89 @@
+{% extends "layout.html.twig" %}
+
+        {% block title %}
+            Acceuil
+        {% endblock %}
+
+        {% block content %}
+
+            {{ dump(app.user) }}
+
+        <div class="row">
+            <!--colleft-->
+            <div class="col-md-8 col-sm-12">
+                <div class="box-caption">
+                    <span>spotlight</span>
+                </div>
+                <!--spotlight-->
+                <section class="owl-carousel owl-spotlight">
+                    {% for spotlight in spotlights %}
+                    <div>
+                        <article class="spotlight-item">
+                            <div class="spotlight-img">
+                                <img alt="" src="{{ asset('images/product/'~spotlight.featuredImage)}}" class="img-responsive" />
+                                <a href="#" class="cate-tag">Mobile</a>
+                            </div>
+
+                            <div class="spotlight-item-caption">
+                                <h2 class="font-heading">
+                                    <a href="{{ path('default_article',{
+                                        'categorie' : spotlight.categorie.slug,
+                                        'slug' : spotlight.slug,
+                                        'id' : spotlight.id
+                                    }) }}">
+                                        {{ spotlight.titre }}
+                                    </a>
+                                </h2>
+                                <div class="meta-post">
+                                    <a href="#">
+                                        {{ spotlight.membre.prenom ~' '~ spotlight.membre.nom }}
+                                    </a>
+                                    <em></em>
+                                    <span>
+                                        {{ spotlight.dateCreation | date('d/m/Y')  }}
+						            </span>
+                                </div>
+                                <p>
+                                    {{ spotlight.contenu | summarize }}
+                                </p>
+                            </div>
+                        </article>
+                    </div>
+                    {% endfor %}
+                </section>
+
+                <!--spotlight-thumbs-->
+                <section class="spotlight-thumbs">
+                    <div class="row">
+                        {% for article in articles  %}
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <div class="spotlight-item-thumb">
+                                <div class="spotlight-item-thumb-img">
+                                    <a href="#">
+                                        <img alt="" src="{{ asset('images/product/'~article.featuredImage)}}" />
+                                    </a>
+                                    <a href="#" class="cate-tag">Tech</a>
+                                </div>
+                                <h3><a href="#">
+                                        {{ article.titre }}
+                                    </a></h3>
+                                <div class="meta-post">
+                                    <a href="#">
+                                        {{ article.membre.nom~' '~article.membre.prenom }}
+                                    </a>
+                                    <em></em>
+                                    <span>
+                                        {{ article.dateCreation | date('d/m/Y') }}
+						            </span>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </section>
+            </div>
+
+            {#{% include "components/_sidebar.html.twig" %}#}
+            {{ render(controller('App\\Controller\\DefaultController::sidebar')) }}
+
+{% endblock %}
